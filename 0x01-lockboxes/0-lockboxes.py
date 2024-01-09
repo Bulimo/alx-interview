@@ -36,7 +36,7 @@ def canUnlockAll(boxes):
             return
         visited.add(box)
         for key in boxes[box]:
-            print('key is {}'.format(key))
+            # print('key is {}'.format(key))
             dfs(key)
 
     dfs(0)  # Start DFS from box 0
