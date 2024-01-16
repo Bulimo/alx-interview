@@ -2,7 +2,7 @@
 """ Module 0-minoperations """
 
 
-def minOperations(n: int) -> int:
+def minOperations(n):
     """
     method that calculates the fewest number of operations needed
     to result in exactly n H characters in the file
