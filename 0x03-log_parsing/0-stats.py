@@ -43,22 +43,27 @@ def main():
             parts = line.split()
             # print("parts = {}".format(parts))
             # Check if the line has the expected format
-            if len(parts) == 9 and parts[0].count(".") == 3\
+            if parts[0].count(".") == 3\
                     and parts[4] == ("\"GET")\
                     and parts[5] == '/projects/260'\
                     and parts[6] == ("HTTP/1.1\"") and parts[7].isdigit()\
                     and parts[8].isdigit():
                 # Extract the status code and file size
                 # print("Extracting the data")
-                file_size = int(parts[8])
-                total_size += file_size
-                status_code = int(parts[7])
-                if status_code in codes:
-                    if status_code not in status_counts:
-                        status_counts[status_code] = 1
-                    else:
-                        status_counts[status_code] += 1
-
+                try:
+                    file_size = int(parts[8])
+                    total_size += file_size
+                except Exception as e:
+                    continue
+                try:
+                    status_code = int(parts[7])
+                    if status_code in codes:
+                        if status_code not in status_counts:
+                            status_counts[status_code] = 1
+                        else:
+                            status_counts[status_code] += 1
+                except Exception as e:
+                    continue
                 if line_count % 10 == 0:
                     print_statistics(total_size, status_counts)
         print_statistics(total_size, status_counts)
