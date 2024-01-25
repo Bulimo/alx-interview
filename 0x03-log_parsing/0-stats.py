@@ -25,51 +25,52 @@ def print_statistics(total_size, status_counts):
 #     return False
 
 
-try:
+def main():
+    """ The main function runs the code """
     total_size = 0
     status_counts = defaultdict(int)
     line_count = 0
     codes = [200, 301, 400, 401, 403, 404, 405, 500]
 
-    for line in sys.stdin:
-        line_count += 1
-        # Split the line by spaces
-        # print("line = {}".format(line))
-        line.strip()
-        # if not check_input(line):
-        #     continue
-        parts = line.split()
-        # print("parts = {}".format(parts))
-        # Check if the line has the expected format
-        # if parts[0].count(".") == 3\
-        #         and parts[4] == ("\"GET")\
-        #         and parts[5] == '/projects/260'\
-        #         and parts[6] == ("HTTP/1.1\"") and parts[7].isdigit()\
-        #         and parts[8].isdigit():
-        # Extract the status code and file size
-        # print("Extracting the data")
-        try:
-            status_code = int(parts[7])
-            if status_code in codes:
-                status_counts[status_code] = status_counts.get(
-                    status_code, 0
-                ) + 1
-        except Exception as e:
-            continue
+    try:
+        for line in sys.stdin:
+            # Split the line by spaces
+            # print("line = {}".format(line))
+            line.strip()
+            # if not check_input(line):
+            #     continue
+            parts = line.split()
+            # print("parts = {}".format(parts))
+            # Check if the line has the expected format
+            # if parts[0].count(".") == 3\
+            #         and parts[4] == ("\"GET")\
+            #         and parts[5] == '/projects/260'\
+            #         and parts[6] == ("HTTP/1.1\"") and parts[7].isdigit()\
+            #         and parts[8].isdigit():
+            # Extract the status code and file size
+            # print("Extracting the data")
+            try:
+                status_code = int(parts[7])
+                if status_code in codes:
+                    status_counts[status_code] = status_counts.get(
+                        status_code, 0
+                    ) + 1
+            except Exception as e:
+                continue
 
-        try:
-            file_size = int(parts[8])
-            total_size += file_size
-        except Exception as e:
-            continue
+            try:
+                file_size = int(parts[8])
+                total_size += file_size
+            except Exception as e:
+                continue
+            line_count += 1
+            if line_count % 10 == 0:
+                print_statistics(total_size, status_counts)
+        print_statistics(total_size, status_counts)
+    except Exception as e:
+        print_statistics(total_size, status_counts)
+        raise
 
-        if line_count % 10 == 0:
-            print_statistics(total_size, status_counts)
-    print_statistics(total_size, status_counts)
-except Exception as e:
-    print_statistics(total_size, status_counts)
-    raise
 
-
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
