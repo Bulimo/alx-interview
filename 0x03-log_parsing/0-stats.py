@@ -4,7 +4,6 @@
 
 import sys
 from collections import defaultdict
-import signal
 import re
 
 
@@ -32,13 +31,6 @@ def main():
     status_counts = defaultdict(int)
     line_count = 0
 
-    def signal_handler(sig, frame):
-        """ Helper function to handle keyboard interupt """
-        print_statistics(total_size, status_counts)
-        sys.exit(0)
-
-    signal.signal(signal.SIGINT, signal_handler)
-
     try:
         for line in sys.stdin:
             line_count += 1
@@ -47,7 +39,7 @@ def main():
             line.strip()
             if not check_input(line):
                 continue
-            parts = line.split()
+            parts = line.split(' ')
             # print("parts = {}".format(parts))
             # Check if the line has the expected format
             # if len(parts) == 9 and parts[0].count(".") == 3\
@@ -61,7 +53,10 @@ def main():
                 status_code = int(parts[7])
                 file_size = int(parts[8])
                 total_size += file_size
-                status_counts[status_code] += 1
+                if status_code not in status_counts:
+                    status_counts[status_code] = 1
+                else:
+                    status_counts[status_code] += 1
             except Exception:
                 pass
 
