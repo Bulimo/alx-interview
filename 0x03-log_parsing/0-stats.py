@@ -30,6 +30,7 @@ def main():
     total_size = 0
     status_counts = defaultdict(int)
     line_count = 0
+    codes = [200, 301, 400, 401, 403, 404, 405, 500]
 
     try:
         for line in sys.stdin:
@@ -49,13 +50,14 @@ def main():
                     and parts[8].isdigit():
                 # Extract the status code and file size
                 # print("Extracting the data")
-                status_code = int(parts[7])
                 file_size = int(parts[8])
                 total_size += file_size
-                if status_code not in status_counts:
-                    status_counts[status_code] = 1
-                else:
-                    status_counts[status_code] += 1
+                status_code = int(parts[7])
+                if status_code in codes:
+                    if status_code not in status_counts:
+                        status_counts[status_code] = 1
+                    else:
+                        status_counts[status_code] += 1
 
                 if line_count % 10 == 0:
                     print_statistics(total_size, status_counts)
