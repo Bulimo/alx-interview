@@ -49,16 +49,13 @@ def main():
             #         and parts[8].isdigit():
             # Extract the status code and file size
             # print("Extracting the data")
-            try:
-                status_code = int(parts[7])
-                file_size = int(parts[8])
-                total_size += file_size
-                if status_code not in status_counts:
-                    status_counts[status_code] = 1
-                else:
-                    status_counts[status_code] += 1
-            except Exception:
-                pass
+            status_code = int(parts[7])
+            file_size = int(parts[8])
+            total_size += file_size
+            if status_code not in status_counts:
+                status_counts[status_code] = 1
+            else:
+                status_counts[status_code] += 1
 
             if line_count % 10 == 0:
                 print_statistics(total_size, status_counts)
