@@ -12,7 +12,7 @@ def minOperations(n):
     Returns:
       - (int): Number of min operations or 0
     """
-    if n == 0 or n == 1 or type(n) is not int:
+    if n == 0 or n == 1 or not (isinstance(n, int)):
         return 0
 
     xters = 1  # Initial character is 1
