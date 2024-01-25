@@ -71,6 +71,7 @@ def main():
         print_statistics(total_size, status_counts)
     except Exception as e:
         print_statistics(total_size, status_counts)
+        raise
 
 
 if __name__ == "__main__":
