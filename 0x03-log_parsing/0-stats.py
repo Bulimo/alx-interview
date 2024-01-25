@@ -53,10 +53,9 @@ def main():
             try:
                 status_code = int(parts[7])
                 if status_code in codes:
-                    if status_code not in status_counts:
-                        status_counts[status_code] = 1
-                    else:
-                        status_counts[status_code] += 1
+                    status_counts[status_code] = status_counts.get(
+                        status_code, 0
+                    ) + 1
             except Exception as e:
                 continue
 
