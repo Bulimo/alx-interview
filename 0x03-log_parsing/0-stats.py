@@ -51,11 +51,6 @@ def main():
                 # Extract the status code and file size
                 # print("Extracting the data")
                 try:
-                    file_size = int(parts[8])
-                    total_size += file_size
-                except Exception as e:
-                    continue
-                try:
                     status_code = int(parts[7])
                     if status_code in codes:
                         if status_code not in status_counts:
@@ -64,8 +59,15 @@ def main():
                             status_counts[status_code] += 1
                 except Exception as e:
                     continue
-                if line_count % 10 == 0:
-                    print_statistics(total_size, status_counts)
+
+                try:
+                    file_size = int(parts[8])
+                    total_size += file_size
+                except Exception as e:
+                    continue
+
+            if line_count % 10 == 0:
+                print_statistics(total_size, status_counts)
         print_statistics(total_size, status_counts)
     except Exception as e:
         print_statistics(total_size, status_counts)
