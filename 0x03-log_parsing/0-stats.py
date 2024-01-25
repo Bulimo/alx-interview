@@ -62,7 +62,7 @@ def main():
 
             if line_count % 10 == 0:
                 print_statistics(total_size, status_counts)
-
+        print_statistics(total_size, status_counts)
     except KeyboardInterrupt:
         print_statistics(total_size, status_counts)
 
