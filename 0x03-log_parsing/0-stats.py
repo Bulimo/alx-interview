@@ -56,13 +56,13 @@ def main():
                         status_code, 0
                     ) + 1
             except Exception as e:
-                continue
+                pass
 
             try:
                 file_size = int(parts[-1])
                 total_size += file_size
             except Exception as e:
-                continue
+                pass
             line_count += 1
             if line_count % 10 == 0:
                 print_statistics(total_size, status_counts)
