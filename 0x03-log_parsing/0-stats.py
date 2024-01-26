@@ -50,7 +50,7 @@ def main():
             # Extract the status code and file size
             # print("Extracting the data")
             try:
-                status_code = int(parts[7])
+                status_code = int(parts[-2])
                 if status_code in codes:
                     status_counts[status_code] = status_counts.get(
                         status_code, 0
@@ -59,7 +59,7 @@ def main():
                 continue
 
             try:
-                file_size = int(parts[8])
+                file_size = int(parts[-1])
                 total_size += file_size
             except Exception as e:
                 continue
