@@ -35,13 +35,13 @@ def validUTF8(data):
         # if 1 not in val:
         #     # print("False coz all 8 bits being 0")
         #     return False
-        if continuation_bits > 0:
-            # This character is part of the previous data set
-            if val[0] != 1 and val[1] != 0:
-                # print("False coz continuation is not [10xxxx]")
-                return False
-            continuation_bits -= 1
-        else:
+        if val:  # continuation_bits > 0:
+            #     # This character is part of the previous data set
+            #     if val[0] != 1 and val[1] != 0:
+            #         # print("False coz continuation is not [10xxxx]")
+            #         return False
+            #     continuation_bits -= 1
+            # else:
             # Start of new character set of data
             # print("val = {}".format(val))
             # Check for invalid starting patterns
