@@ -16,62 +16,42 @@ def validUTF8(data):
     Return:
       True if data is a valid UTF-8 encoding, else return False
     """
-    def dec_to_bin(num):
-        """
-        Converts the number from decimal to binary
-        Returns: List of binary representation of num
-        """
-        # val = [int(x) for x in bin(num)[2:]]
-        # if len(val) > 8:
-        #     return val[1:]
-        # return [0] * (8 - len(val)) + val
-        val = [int(x) for x in f"{num:08b}"]
-        return val
+    def countLeadingOnes(byte):
+        count = 0
+        mask = 1 << 7
+        while byte & mask:
+            count += 1
+            mask >>= 1
+        return count
 
-    continuation_bits = 0
-    # Iterate over all the characters in the data set
-    for xter in data:
-        val = dec_to_bin(xter)
-        # if 1 not in val:
-        #     # print("False coz all 8 bits being 0")
-        #     return False
-        if continuation_bits > 0:
-            # This character is part of the previous data set
-            if val[0] != 1 and val[1] != 0:
-                # print("False coz continuation is not [10xxxx]")
-                return False
-            continuation_bits -= 1
+    # Check each byte in the data
+    i = 0
+    while i < len(data):
+        num_bytes = 0
+
+        # Count leading '1' bits to determine the number of
+        # bytes in the current character
+        leading_ones = countLeadingOnes(data[i])
+
+        # Handle the special case where the first byte has 0 leading '1' bits
+        if leading_ones == 0:
+            num_bytes = 1
         else:
-            # Start of new character set of data
-            # print("val = {}".format(val))
-            # Check for invalid starting patterns
-            if val[0] == 1 and val[1] == 0:
-                # Invalid start for a character
+            # Invalid case if leading '1' bits are more than 4 or less than 1
+            if leading_ones < 1 or leading_ones > 4:
                 return False
 
-            # Count the number of continuation bits
-            for i in val:
-                if i == 1:
-                    continuation_bits += 1
-                else:
-                    break
-            # if continuation_bits == 1:
-            #     # print("False coz not continuation and starts\
-            #     with 1[1xxxx]")
-            #     return False
-            # if continuation_bits == 0:
-            #     continue
-            # elif continuation_bits > 1 and continuation_bits <= 6:
-            #     continuation_bits -= 1
-            # else:
-            #     continuation_bits = 5
-            # if continuation_bits:
-            #     print("continuation_bits = {}".format(continuation_bits))
-            #     print("We have continuation from {}".format(xter))
-            # Validate the count of continuation bits
-            if continuation_bits == 1 or continuation_bits > 4:
-                # Invalid continuation bits count
+            num_bytes = leading_ones
+
+        # Check if there are enough bytes in the data
+        if i + num_bytes > len(data):
+            return False
+
+        # Check if the following bytes have the correct format (10xxxxxx)
+        for j in range(1, num_bytes):
+            if not (data[i + j] & 0b11000000 == 0b10000000):
                 return False
 
-            continuation_bits = max(continuation_bits - 1, 0)
-    return continuation_bits == 0
+        i += num_bytes
+
+    return True
