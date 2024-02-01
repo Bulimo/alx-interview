@@ -32,9 +32,9 @@ def validUTF8(data):
     # Iterate over all the characters in the data set
     for xter in data:
         val = dec_to_bin(xter)
-        if 1 not in val:
-            # print("False coz all 8 bits being 0")
-            return False
+        # if 1 not in val:
+        #     # print("False coz all 8 bits being 0")
+        #     return False
         if continuation_bits > 0:
             # This character is part of the previous data set
             if val[0] != 1 and val[1] != 0:
