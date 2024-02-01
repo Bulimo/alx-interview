@@ -21,10 +21,12 @@ def validUTF8(data):
         Converts the number from decimal to binary
         Returns: List of binary representation of num
         """
-        val = [int(x) for x in bin(num)[2:]]
-        if len(val) > 8:
-            return val[1:]
-        return [0] * (8 - len(val)) + val
+        # val = [int(x) for x in bin(num)[2:]]
+        # if len(val) > 8:
+        #     return val[1:]
+        # return [0] * (8 - len(val)) + val
+        val = [int(x) for x in f"{num:08b}"]
+        return val
 
     continuation_bits = 0
     # Iterate over all the characters in the data set
@@ -40,24 +42,36 @@ def validUTF8(data):
                 return False
             continuation_bits -= 1
         else:
-            continuation_bits = 0
             # Start of new character set of data
             # print("val = {}".format(val))
+            # Check for invalid starting patterns
+            if val[0] == 1 and val[1] == 0:
+                # Invalid start for a character
+                return False
+
+            # Count the number of continuation bits
             for i in val:
                 if i == 1:
                     continuation_bits += 1
                 else:
                     break
-            if continuation_bits == 1:
-                # print("False coz not continuation and starts with 1[1xxxx]")
-                return False
-            if continuation_bits == 0:
-                continue
-            elif continuation_bits > 1 and continuation_bits <= 6:
-                continuation_bits -= 1
-            else:
-                continuation_bits = 5
+            # if continuation_bits == 1:
+            #     # print("False coz not continuation and starts\
+            #     with 1[1xxxx]")
+            #     return False
+            # if continuation_bits == 0:
+            #     continue
+            # elif continuation_bits > 1 and continuation_bits <= 6:
+            #     continuation_bits -= 1
+            # else:
+            #     continuation_bits = 5
             # if continuation_bits:
             #     print("continuation_bits = {}".format(continuation_bits))
             #     print("We have continuation from {}".format(xter))
-    return True
+            # Validate the count of continuation bits
+            if continuation_bits == 1 or continuation_bits > 4:
+                # Invalid continuation bits count
+                return False
+
+            continuation_bits = max(continuation_bits - 1, 0)
+    return continuation_bits == 0
