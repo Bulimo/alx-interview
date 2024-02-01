@@ -7,6 +7,7 @@ Each folder in the repository covers particular concepts in interview codes
     . 0x01-lockboxes
     . 0x02-minimum_operations
     . 0x03-log_parsing
+    . 0x04-utf8_validation
 
 ## Authors
 
