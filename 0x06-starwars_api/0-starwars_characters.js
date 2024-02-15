@@ -1,0 +1,23 @@
+#!/usr/bin/node
+#!/usr/bin / node
+const request = require('request');
+const url = 'https://swapi-api.hbtn.io/api/films/' + process.argv[2];
+
+function getRequestStar(charactersUrl) {
+  return new Promise((resolve, reject) => {
+    request(charactersUrl, (error, response, body) => {
+      if (error) reject(error);
+      resolve(JSON.parse(body));
+    });
+  });
+}
+
+async function charNameStarWars() {
+  const response = await getRequestStar(url);
+  for (let i = 0; i < response.characters.length; i++) {
+    const char = await getRequestStar(response.characters[i]);
+    console.log(char.name);
+  }
+}
+
+charNameStarWars();
