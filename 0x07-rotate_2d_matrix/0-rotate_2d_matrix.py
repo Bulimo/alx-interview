@@ -8,7 +8,7 @@ def rotate_2d_matrix(matrix):
     # print(x)
     mat_len = len(matrix)
     for i in range(mat_len):
-        for j in range(i + 1, len(matrix)):
+        for j in range(i + 1, mat_len):
             # print(f'i = {i}, j = {j}')
             matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
     for i in range(mat_len):
