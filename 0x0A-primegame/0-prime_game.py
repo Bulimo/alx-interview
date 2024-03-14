@@ -73,6 +73,9 @@ def roundPlay(n, primes):
 
 def isWinner(x, nums):
     """ Main driver to solve the prime game. Returns the final winner """
+    if not nums:  # If nums list is empty
+        return None
+
     maria_wins = 0
     ben_wins = 0
     primes = SieveOfEratosthenes(max(nums))
