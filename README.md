@@ -13,6 +13,7 @@ Each folder in the repository covers particular concepts in interview codes
     . 0x07-rotate_2d_matrix
     . 0x08-making_change
     . 0x09-island_perimeter
+    . 0x0A-primegame
 
 ## Authors
 
