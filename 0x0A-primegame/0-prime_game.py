@@ -76,6 +76,9 @@ def isWinner(x, nums):
     if not nums:  # If nums list is empty
         return None
 
+    if all(num == 0 for num in nums):  # If all elements in nums are 0
+        return "Maria"
+
     maria_wins = 0
     ben_wins = 0
     primes = SieveOfEratosthenes(max(nums))
